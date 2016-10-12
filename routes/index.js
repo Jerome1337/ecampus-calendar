@@ -1,10 +1,11 @@
 'use strict';
-
 let express = require('express');
+let path = require('path');
 let router = express.Router();
+let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'EPSI NORD' });
+  res.render('index', { title: 'EPSI NORD' }, { settings });
 });
 
 router.post('/', function(req, res, next) {

@@ -1,5 +1,28 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    .row
+      .col-xs-12
+        form(name='login', method='POST')
+          .form-group
+            label.control-label(for='') prenom.nom *
+            input#email.form-control(name='username', type='text', required)
+
+          .form-group
+            label.control-label(for='password') Mot de passe *
+            input#password.form-control(name='password', type='password', required)
+
+          .form-group
+            label.control-label(for='promo') Promo *
+            select#promo.form-control(name='promo', required)
+              option(value='')
+
+              each years, town in settings
+                optgroup(label=town)
+
+                each year in years
+                  option(value='#{town} #{year}')= year
+
+          .mtl
+            button.btn.btn-success(type='submit') Se connecter
