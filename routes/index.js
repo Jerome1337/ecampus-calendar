@@ -1,19 +1,18 @@
 'use strict';
+
 let express = require('express');
 let path = require('path');
 let router = express.Router();
+let { login } = require('../public/javascripts/ecampus');
 let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'EPSI NORD' }, { settings });
+  res.render('index', { settings });
 });
 
 router.post('/', function(req, res, next) {
-  let username = req.body,
-      password = req.body,
-      promo = req.body;
-  let town = promo.split(' '),
-      year = promo.split(' ');
+  let { username, password, promo } = req.body;
+  let [town, year] = promo.split(' ');
 
   let data = {
     'form.submitted': 1,
@@ -26,7 +25,7 @@ router.post('/', function(req, res, next) {
       .then(function (account) {
         res
             .cookie('account', eval(account.value), { httpOnly: true })
-            .redirect(`/api/${town}/${year}/calendar/load`);
+            .redirect('/' + town + '/' + year + '/calendar/load');
       })
       .catch(function (error) {
         next(error);
