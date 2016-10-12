@@ -1,8 +1,10 @@
 {
   "name": "ecampus-calandar",
+  "description": "EPSI get calendar datas",
   "author": "Jérôme Pogeant <p-jerome@hotmail.fr>",
   "version": "0.1.0",
   "private": false,
+  "license": "MIT",
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -12,12 +14,18 @@
   },
   "dependencies": {
     "body-parser": "~1.15.1",
+    "cheerio": "^0.22.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.4",
-    "jade": "~1.11.0",
+    "foundation-apps": "^1.2.0",
+    "moment-recur": "^1.0.5",
+    "moment-timezone": "^0.5.6",
     "morgan": "~1.7.0",
+    "mysql": "^2.11.1",
     "node-sass-middleware": "0.8.0",
-    "serve-favicon": "~2.3.0"
+    "promise": "^7.1.1",
+    "pug": "^2.0.0-beta6",
+    "serve-favicon": "^2.3.0"
   }
 }
