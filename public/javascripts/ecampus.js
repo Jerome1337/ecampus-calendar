@@ -2,9 +2,14 @@
 
 let _           = require('lodash');
 let request     = require('request');
+let mysql       = require("mysql");
 let cheerio     = require('cheerio');
 let moment      = require('moment-timezone');
 let ECAMPUS_URL = 'http://ecampusnord.epsi.fr';
+
+let crypto = require('crypto');
+let algorithm = 'aes-256-ctr';
+let password = 'djcu43R(';
 
 // Get calendar datas method
 const calendar = (cookie, date) => {
@@ -35,6 +40,14 @@ const calendar = (cookie, date) => {
                 'Novembre': 'November',
                 'Décembre': 'December',
             };
+
+            // Database connection
+            let con = mysql.createConnection({
+                host: 'localhost',
+                user: 'root',
+                password: 'root',
+                database: 'ecampus'
+            });
 
             $('.Jour').each(function () {
                 let humanDate = $(this).text().split(' ');
@@ -92,7 +105,29 @@ const login = (data) => {
     });
 };
 
+// Encrypt user password
+const passwordEncrypt = (value) => {
+    let cipher = crypto.createCipher(algorithm,password);
+    let crypted = cipher.update(value,'utf8','hex');
+
+    crypted += cipher.final('hex');
+
+    return crypted;
+};
+
+// Decrypt user password
+const passwordDecrypt = (value) => {
+    let decipher = crypto.createDecipher(algorithm,password);
+    let dec = decipher.update(value,'hex','utf8');
+
+    dec += decipher.final('utf8');
+
+    return dec;
+};
+
 module.exports = {
     calendar,
     login,
+    passwordEncrypt,
+    passwordDecrypt
 };

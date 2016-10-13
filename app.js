@@ -1,7 +1,6 @@
 'use strict';
 
 let express = require('express');
-let mysql = require("mysql");
 let path = require('path');
 let favicon = require('serve-favicon');
 let logger = require('morgan');
@@ -13,22 +12,6 @@ let index = require('./routes/index');
 let calendar = require('./routes/calendar');
 
 let app = express();
-
-// Database connection
-let con = mysql.createConnection({
-    host: "localhost",
-    user: "XXXXXXX",
-    password: "XXXXXXX"
-});
-
-con.connect(function(err){
-    if(err){
-        return err;
-    }
-});
-
-con.end(function(err) {
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
