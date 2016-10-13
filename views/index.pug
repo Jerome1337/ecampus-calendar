@@ -23,7 +23,7 @@ block content
                 optgroup(label=town)
 
                 each year in years
-                  option(value='#{town} #{year}')= year
+                  option(value=town + ' ' + year)= year
 
           .mtl
             button.btn.btn-success(type='submit') Se connecter
