@@ -4,15 +4,20 @@ let express = require('express');
 let mysql = require("mysql");
 let path = require('path');
 let router = express.Router();
+let bodyParser = require('body-parser');
 let { login, passwordEncrypt } = require('../public/javascripts/ecampus');
 let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
 
-router.get('/', function(req, res) {
-  res.render('index', { settings });
+router.get('/', bodyParser.json(), function(req, res) {
+  res.render('index', {
+      title: "EPSI Ecampus calendar",
+      data: req.body,
+      settings
+  });
 });
 
 router.post('/', function(req, res, next) {
-  let { username, password, promo } = req.body;
+  let { username, password, promo, status, specialite } = req.body;
   let [town, year] = promo.split(' ');
 
   let data = {
@@ -35,7 +40,7 @@ router.post('/', function(req, res, next) {
 
           con.query('SELECT username FROM user WHERE username = \'' + username + '\'', function (err, results) {
               if (results.length == 0) {
-                  con.query('INSERT INTO user (username, password, town, promo) VALUES (\'' + username + '\', \'' + encryptedPassword + '\', \'' + town +  '\', \'' + year + '\');');
+                  con.query('INSERT INTO user (username, password, town, promo, status, specialite) VALUES (\'' + username + '\', \'' + encryptedPassword + '\', \'' + town +  '\', \'' + year + '\', \'' + status + '\', \'' + specialite + '\');');
               }
           });
 

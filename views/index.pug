@@ -19,11 +19,25 @@ block content
             select#promo.form-control(name='promo', required)
               option(value='')
 
-              each years, town in settings
+              each years, town in settings.promo
                 optgroup(label=town)
 
                 each year in years
                   option(value=town + ' ' + year)= year
+
+          .form-group
+            label.control-label(for='status') Status *
+            select#status.form-control(name='status', required)
+              option(value='')
+              each status in settings.statues
+                option(value=status)
+
+          .form-group
+            label.control-label(for='specialite') Spécialité *
+            select#specialite.form-control(name='specialite', required)
+              option(value='')
+              each key, specialite in settings.specialite
+                option(value=specialite)
 
           .mtl
             button.btn.btn-success(type='submit') Se connecter
