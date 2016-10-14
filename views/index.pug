@@ -36,7 +36,7 @@ block content
             label.control-label(for='specialite') Spécialité *
             select#specialite.form-control(name='specialite', required)
               option(value='')
-              each key, specialite in settings.specialite
+              each specialite in settings.specialite
                 option(value=specialite)
 
           .mtl
