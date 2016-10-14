@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.15)
 # Database: ecampus
-# Generation Time: 2016-10-14 13:44:14 +0000
+# Generation Time: 2016-10-14 13:46:59 +0000
 # ************************************************************
 
 
@@ -18,6 +18,23 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table calendar
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `calendar`;
+
+CREATE TABLE `calendar` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` varchar(150) DEFAULT NULL,
+  `title` varchar(150) DEFAULT NULL,
+  `teacher` varchar(255) DEFAULT NULL,
+  `start_at` varchar(5) DEFAULT NULL,
+  `end_at` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 
 # Dump of table user
