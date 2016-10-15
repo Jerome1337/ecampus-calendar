@@ -1,43 +1,40 @@
 extends layout
 
 block content
-  .container
     .row
-      .col-xs-12
-        p Utilisez vos identifiend Ecampus
+      .small-12.small-centered.medium-8.large-6.columns.login-form
         form(name='login', method='POST')
-          .form-group
-            label.control-label(for='username') prenom.nom *
-            input#username.form-control(name='username', type='text', required)
+          .column
+            h1.text-center Utilisez vos identifiants Ecampus
 
-          .form-group
+            label.control-label(for='username') Username (prénom.nom) *
+              input#username.form-control(name='username', type='text', required)
+
             label.control-label(for='password') Mot de passe *
-            input#password.form-control(name='password', type='password', required)
+              input#password.form-control(name='password', type='password', required)
 
-          .form-group
+            label.control-label(for='city') Ville *
+              select#city.form-control(name='city', required)
+                option(value='')
+                each key, city in settings.city
+                  option(value=key)= city
+
             label.control-label(for='promo') Promo *
-            select#promo.form-control(name='promo', required)
-              option(value='')
+              select#promo.form-control(name='promo', required)
+                option(value='')
+                each key, promo in settings.promo
+                  option(value=key)= promo
 
-              each years, town in settings.promo
-                optgroup(label=town)
-
-                each year in years
-                  option(value=town + ' ' + year)= year
-
-          .form-group
             label.control-label(for='status') Status *
-            select#status.form-control(name='status', required)
-              option(value='')
-              each status in settings.statues
-                option(value=status)
+              select#status.form-control(name='status', required)
+                option(value='')
+                each key, status in settings.statues
+                  option(value=key)= status
 
-          .form-group
             label.control-label(for='specialite') Spécialité *
-            select#specialite.form-control(name='specialite', required)
-              option(value='')
-              each specialite in settings.specialite
-                option(value=specialite)
+              select#specialite.form-control(name='specialite', required)
+                option(value='')
+                each key, specialite in settings.specialite
+                  option(value=key)= specialite
 
-          .mtl
-            button.btn.btn-success(type='submit') Se connecter
+            button.expanded.button(type='submit') Se connecter

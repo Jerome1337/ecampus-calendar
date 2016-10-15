@@ -1,13 +1,27 @@
 {
+  "db": {
+    "host": "localhost",
+    "user": "root",
+    "password": "root",
+    "database": "ecampus"
+  },
+  "city": {
+    "Lille": "lille",
+    "Arras": "lille"
+  },
   "promo": {
-    "lille": ["b1", "b2", "b3", "i4", "i5"]
+    "B1": "b1",
+    "B2": "b2",
+    "B3": "b3",
+    "I4": "i4",
+    "I5": "i5"
   },
   "statues": {
-    "alternant": "1",
-    "init": "2"
+    "Alternant": "1",
+    "Init": "2"
   },
   "specialite": {
-    "dev": "1",
-    "res": "2"
+    "Dev": "dev",
+    "Reseau": "reseau"
   }
 }
