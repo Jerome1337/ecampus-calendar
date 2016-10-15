@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/Jerome1337/ecampus-calendar.svg?branch=master)](https://travis-ci.org/Jerome1337/ecampus-calendar)
 
+Written in JavaScript using NodeJS, ExpressJS, MomentJS, SASS and Foundation 6
+
 ## Usage
 Use `$ npm i` to install project dependencies
 
