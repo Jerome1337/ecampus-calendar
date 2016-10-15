@@ -1,16 +1,3 @@
-# ************************************************************
-# Sequel Pro SQL dump
-# Version 4541
-#
-# http://www.sequelpro.com/
-# https://github.com/sequelpro/sequelpro
-#
-# Host: 127.0.0.1 (MySQL 5.7.15)
-# Database: ecampus
-# Generation Time: 2016-10-14 13:46:59 +0000
-# ************************************************************
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -27,12 +14,31 @@ DROP TABLE IF EXISTS `calendar`;
 
 CREATE TABLE `calendar` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` varchar(150) DEFAULT NULL,
-  `title` varchar(150) DEFAULT NULL,
+  `city` varchar(150) NOT NULL DEFAULT '',
+  `promo` varchar(3) NOT NULL DEFAULT '',
+  `status` int(11) NOT NULL,
+  `specialite` varchar(30) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Dump of table course
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `course`;
+
+CREATE TABLE `course` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `calendar_id` int(11) NOT NULL,
+  `date` date DEFAULT NULL,
+  `title` varchar(200) DEFAULT NULL,
   `teacher` varchar(255) DEFAULT NULL,
   `start_at` varchar(5) DEFAULT NULL,
   `end_at` varchar(5) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `calendar_id` (`calendar_id`),
+  CONSTRAINT `course_ibfk_1` FOREIGN KEY (`calendar_id`) REFERENCES `calendar` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -44,12 +50,12 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(150) DEFAULT NULL,
-  `password` varchar(150) DEFAULT NULL,
-  `town` varchar(255) DEFAULT NULL,
-  `promo` varchar(3) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  `specialite` varchar(30) DEFAULT NULL,
+  `username` varchar(150) NOT NULL DEFAULT '',
+  `password` varchar(150) NOT NULL DEFAULT '',
+  `city` varchar(150) NOT NULL DEFAULT '',
+  `promo` varchar(3) NOT NULL DEFAULT '',
+  `status` int(11) NOT NULL,
+  `specialite` varchar(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
