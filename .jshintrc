@@ -1,0 +1,6 @@
+{
+  "maxerr": 50,
+  "esversion": 6,
+  "node": true,
+  "evil": true
+}
