@@ -7,8 +7,13 @@ Use `$ npm i` to install project dependencies
 
 Use `$ npm start` to start NodeJS server
 
+Use `$ npm test` to launch JShint tests 
+
 ## TODO
 * Rework calendar method (if neeeded)
-* Save datas to MySQL DB
 * Front-end
 * Add saved datas to Outlook/Gmail calendar
+
+## Authors
+* [Jérôme Pogeant](https://github.com/Jerome1337)
+* [Julien Bouquet](https://github.com/Nobody59)
