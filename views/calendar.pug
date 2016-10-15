@@ -1,0 +1,18 @@
+extends layout
+
+block content
+    .row
+        .small-12.small-centered.medium-10.large-10.columns
+            table
+                thead
+                    tr
+                        each course in courses
+                            if (course.hasOwnProperty(course.date))
+                                td= moment(course.date).format('dddd Do MMMM')
+                tbody
+                    each course in courses
+                        tr
+                            td
+                                p= course.title
+                                p= course.teacher
+                                p= course.start_at + ' - ' + course.end_at
