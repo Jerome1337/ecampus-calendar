@@ -120,7 +120,7 @@ const calendar = (cookie, date) => {
             });
 
             for (let item of items) {
-                con.query('INSERT INTO course (calendar_id, date, title, teacher, start_at, end_at) VALUES (4, \'' + item.date + '\', "' + item.title + '", "' + item.teacher + '", \'' + item.startAt + '\', \'' + item.endAt + '\');');
+                con.query('INSERT INTO course (calendar_id, date, title, teacher, start_at, end_at) VALUES (6, \'' + item.date + '\', "' + item.title + '", "' + item.teacher + '", \'' + item.startAt + '\', \'' + item.endAt + '\');');
             }
 
             resolve(items);
