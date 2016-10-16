@@ -9,7 +9,8 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 
 let index = require('./routes/index');
-let calendar = require('./routes/calendar');
+let calendarLoad = require('./routes/calendarLoad');
+let calendarPage = require('./routes/calendarPage');
 
 let app = express();
 
@@ -30,8 +31,11 @@ app.use(require('node-sass-middleware')({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.locals.moment = require('moment-timezone');
+
 app.use('/', index);
-app.use(calendar);
+app.use(calendarLoad);
+app.use(calendarPage);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
