@@ -7,11 +7,10 @@ block content
                 thead
                     tr
                         each course in courses
-                            if (course.hasOwnProperty(course.date))
-                                td= moment(course.date).format('dddd Do MMMM')
+                            td= moment(course.date).format('dddd Do MMMM')
                 tbody
-                    each course in courses
-                        tr
+                    tr
+                        each course in courses
                             td
                                 p= course.title
                                 p= course.teacher
