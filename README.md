@@ -12,9 +12,10 @@ Use `$ npm start` to start NodeJS server
 Use `$ npm test` to launch JShint tests 
 
 ## TODO
-* Rework calendar method (if neeeded)
 * Front-end
+* Use Gmail API
 * Add saved datas to Outlook/Gmail calendar
+* Migrate MySQL to MongoDB ?
 
 ## Authors
 * [Jérôme Pogeant](https://github.com/Jerome1337)
