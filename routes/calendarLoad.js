@@ -9,6 +9,7 @@ require('moment-recur');
 let {calendar} = require('../public/javascripts/ecampus');
 let path = require('path');
 let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
+let idCalendar;
 
 router.get('/:city/:promo/:status/:spe/calendar/load', (req, res, next) => {
     if (req.cookies.account) {
@@ -21,14 +22,18 @@ router.get('/:city/:promo/:status/:spe/calendar/load', (req, res, next) => {
             database: settings.db.database
         });
 
-        con.query('SELECT city, promo, status, specialite FROM calendar WHERE (city = \'' + city + '\' AND promo = \'' + promo + '\' AND status = ' + status + ' AND specialite = \'' + spe + '\')', function (err, results) {
+        con.query('SELECT id FROM calendar WHERE (city = \'' + city + '\' AND promo = \'' + promo + '\' AND status = ' + status + ' AND specialite = \'' + spe + '\')', function (err, results) {
+            idCalendar =  results;
             if (results.length === 0) {
-                con.query('INSERT INTO calendar (city, promo, status, specialite) VALUES (\'' + city + '\', \'' + promo + '\', \'' + status + '\', \'' + spe + '\');');
+                idCalendar = con.query('INSERT INTO calendar (city, promo, status, specialite) VALUES (\'' + city + '\', \'' + promo + '\', \'' + status + '\', \'' + spe + '\');');
             }
         });
 
+        //TODO automatisation du calendar_id en fonction du user
+        con.query('DELETE FROM course where calendar_id = \''+ idCalendar + '\'');
+
         Promise.all(
-            _.map(moment([2016, 8, 1]).recur().every(1).weeks().next(40), function (m) {
+            _.map(moment([moment().year(), moment().month(), moment().day()]).recur().every(1).weeks().next(40), function (m) {
                 return calendar(req.cookies.account, m.format('MM/DD/YYYY'));
             })
         )

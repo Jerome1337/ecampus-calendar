@@ -67,7 +67,6 @@ const calendar = (cookie, date) => {
                 return reject(err);
             }
 
-            let idCalendar;
             let $ = cheerio.load(body);
             let givenYear = moment(date, 'MM/DD/YYYY').format('YYYY');
             let items = [];
@@ -120,19 +119,8 @@ const calendar = (cookie, date) => {
                 }
             });
 
-            let pathArray = window.location.pathname.split( '/' );
-            let city = pathArray[1];
-            let promo = pathArray[2];
-            let status = pathArray[3];
-            let spe = pathArray[4];
-
-            con.query('SELECT id FROM calendar WHERE (city = \'' + city + '\' AND promo = \'' + promo + '\' AND status = ' + status + ' AND specialite = \'' + spe + '\')', function (err, results) {
-                idCalendar = results;
-            });
-
-            for (let item of items) {
-                console.log(pathArray);
-                con.query('INSERT INTO course (calendar_id, date, title, teacher, start_at, end_at) VALUES (\'' + idCalendar + '\', \'' + item.date + '\', "' + item.title + '", "' + item.teacher + '", \'' + item.startAt + '\', \'' + item.endAt + '\');');
+           for (let item of items) {
+                con.query('INSERT INTO course (calendar_id, date, title, teacher, start_at, end_at) VALUES (1, \'' + item.date + '\', "' + item.title + '", "' + item.teacher + '", \'' + item.startAt + '\', \'' + item.endAt + '\');');
             }
 
             resolve(items);
