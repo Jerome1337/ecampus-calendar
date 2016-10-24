@@ -13,7 +13,7 @@ Use `$ npm test` to launch JShint tests
 
 ## TODO
 * Front-end
-* Mettre un spinner chargement du calendar
+* Spinner when the calendar is loading
 * Use Gmail API
 * Add saved datas to Outlook/Gmail calendar
 * Migrate MySQL to MongoDB ?
