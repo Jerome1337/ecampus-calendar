@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jshint app.js && jshint routes/*.js && jshint public/javascripts/*.js"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,8 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "express": "~4.13.4",
+    "lodash": "^4.16.5",
+    "moment": "^2.15.2",
     "moment-recur": "^1.0.5",
     "moment-timezone": "^0.5.6",
     "morgan": "~1.7.0",
