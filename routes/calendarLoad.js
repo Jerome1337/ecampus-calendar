@@ -45,7 +45,7 @@ router.get('/:city/:promo/:status/:spe/calendar/load', (req, res, next) => {
                     e.spe = spe;
                 });
 
-                res.redirect(`/${city}/${promo}/${status}/${spe}/calendar/${moment().format('DD-MM-YYYY')}`);
+                res.redirect(`/${city}/${promo}/${status}/${spe}/calendar/${moment().startOf('isoweek').format('DD-MM-YYYY')}/${moment().endOf('isoweek').format('DD-MM-YYYY')}`);
             })
             .catch(function (error) {
                 next(error);
