@@ -24,6 +24,7 @@
     "moment": "^2.15.2",
     "moment-recur": "^1.0.5",
     "moment-timezone": "^0.5.6",
+    "mongodb": "^2.2.11",
     "morgan": "~1.7.0",
     "mysql": "^2.11.1",
     "node-sass-middleware": "0.8.0",
