@@ -1,15 +1,15 @@
 {
-  "Subject": "Discuss the Calendar REST API",
-  "Body": {
-    "ContentType": "HTML",
-    "Content": "I think it will meet our requirements!"
-  },
-  "Start": {
-    "DateTime": "2014-02-02T18:00:00",
-    "TimeZone": "Europe/Paris"
-  },
-  "End": {
-    "DateTime": "2014-02-02T19:00:00",
-    "TimeZone": "Europe/Paris"
-  }
+    "Subject": "Discuss the Calendar REST API",
+    "Body": {
+        "ContentType": "HTML",
+        "Content": "I think it will meet our requirements!"
+    },
+    "Start": {
+        "DateTime": "2014-02-02T18:00:00",
+        "TimeZone": "Europe/Paris"
+    },
+    "End": {
+        "DateTime": "2014-02-02T19:00:00",
+        "TimeZone": "Europe/Paris"
+    }
 }
