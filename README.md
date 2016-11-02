@@ -18,6 +18,7 @@ Use `$ npm test` to launch JShint tests
 * Add saved datas to Outlook/Gmail calendar
 * Migrate MySQL to MongoDB
 * Factorize / optimize code
+* Rework repo commit history
 
 ## Authors
 * [Jérôme Pogeant](https://github.com/Jerome1337)
