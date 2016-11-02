@@ -5,7 +5,8 @@ let mysql = require('mysql');
 let path = require('path');
 let router = express.Router();
 let bodyParser = require('body-parser');
-let {login, passwordEncrypt} = require('../public/javascripts/ecampus');
+let { login } = require('../public/javascripts/login/login');
+let { passwordEncrypt } = require('../public/javascripts/password/password');
 let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
 
 router.get('/', bodyParser.json(), function (req, res) {

@@ -6,55 +6,8 @@ let mysql = require('mysql');
 let cheerio = require('cheerio');
 let moment = require('moment-timezone');
 let path = require('path');
-let settings = require(path.join(__dirname, '../..', 'settings', 'settings.json'));
+let settings = require(path.join(__dirname, '../../..', 'settings', 'settings.json'));
 let ECAMPUS_URL = 'http://ecampusnord.epsi.fr';
-
-let crypto = require('crypto');
-let algorithm = 'aes-256-ctr';
-let key = 'djcu43R(';
-
-// Login method
-const login = (data) => {
-    return new Promise(function (resolve, reject) {
-        let j = request.jar();
-
-        request.post({url: `${ECAMPUS_URL}/login_form`, form: data, jar: j}, function (err) {
-            if (err) {
-                return reject(err);
-            }
-
-            let cookies = j.getCookies(ECAMPUS_URL);
-            let account = _.find(cookies, (c) => c.key == '__ac');
-
-            if (account) {
-                resolve(account);
-            } else {
-                let err = new Error('Login failed');
-                reject(err);
-            }
-        });
-    });
-};
-
-// Encrypt user password
-const passwordEncrypt = (value) => {
-    let cipher = crypto.createCipher(algorithm, key);
-    let crypted = cipher.update(value, 'utf8', 'hex');
-
-    crypted += cipher.final('hex');
-
-    return crypted;
-};
-
-// Decrypt user password
-const passwordDecrypt = (value) => {
-    let decipher = crypto.createDecipher(algorithm, key);
-    let decrypted = decipher.update(value, 'hex', 'utf8');
-
-    decrypted += decipher.final('utf8');
-
-    return decrypted;
-};
 
 // Get calendar datas method
 const calendar = (cookie, date) => {
@@ -129,8 +82,5 @@ const calendar = (cookie, date) => {
 };
 
 module.exports = {
-    login,
-    passwordEncrypt,
-    passwordDecrypt,
     calendar
 };

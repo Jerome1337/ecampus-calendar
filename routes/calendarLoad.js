@@ -6,7 +6,7 @@ let mysql = require('mysql');
 let router = express.Router();
 let moment = require('moment-timezone');
 require('moment-recur');
-let {calendar} = require('../public/javascripts/ecampus');
+let { calendar } = require('../public/javascripts/calendar/calendar');
 let path = require('path');
 let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
 let idCalendar;
