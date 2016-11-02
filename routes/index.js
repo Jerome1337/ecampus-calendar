@@ -1,17 +1,17 @@
 'use strict';
 
+let bodyParser = require('body-parser');
 let express = require('express');
-let mysql = require('mysql');
+let mongo = require('mongodb').MongoClient;
 let path = require('path');
 let router = express.Router();
-let bodyParser = require('body-parser');
+let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
 let { login } = require('../public/javascripts/login/login');
 let { passwordEncrypt } = require('../public/javascripts/password/password');
-let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
 
 router.get('/', bodyParser.json(), function (req, res) {
     res.render('index', {
-        title: "EPSI Ecampus calendar",
+        title: 'EPSI Ecampus calendar',
         data: req.body,
         settings
     });
@@ -31,22 +31,21 @@ router.post('/', function (req, res, next) {
 
     login(data)
         .then(function (account) {
-            let con = mysql.createConnection({
-                host: settings.db.host,
-                user: settings.db.user,
-                password: settings.db.password,
-                database: settings.db.database
+            mongo.connect('mongodb://localhost/ecampus', function (error, db) {
+                db.collection('user').findOne({ username: username }, function (err, user) {
+                    if (!user) {
+                        db.collection('user').insertOne({
+                            username: username,
+                            password: encryptedPassword,
+                            city: city,
+                            promo: promo,
+                            status: status,
+                            specialite: specialite
+                        });
+                    }
+                    });
             });
-
-            con.query('SELECT username FROM user WHERE username = \'' + username + '\'', function (err, results) {
-                if (results.length === 0) {
-                    con.query('INSERT INTO user (username, password, city, promo, status, specialite) VALUES (\'' + username + '\', \'' + encryptedPassword + '\', \'' + city + '\', \'' + promo + '\', \'' + status + '\', \'' + specialite + '\');');
-                }
-            });
-
-            res
-                .cookie('account', eval(account.value), {httpOnly: true})
-                .redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
+           res.cookie('account', eval(account.value), {httpOnly: true}).redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
         })
         .catch(function (error) {
             next(error);

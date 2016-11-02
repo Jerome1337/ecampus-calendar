@@ -1,13 +1,11 @@
 'use strict';
 
 let _ = require('lodash');
-let request = require('request');
-let mysql = require('mysql');
 let cheerio = require('cheerio');
-let moment = require('moment-timezone');
-let path = require('path');
-let settings = require(path.join(__dirname, '../../..', 'settings', 'settings.json'));
 let ECAMPUS_URL = 'http://ecampusnord.epsi.fr';
+let moment = require('moment-timezone');
+let mongo = require('mongodb').MongoClient;
+let request = require('request');
 
 // Get calendar datas method
 const calendar = (cookie, date) => {
@@ -39,13 +37,6 @@ const calendar = (cookie, date) => {
                 'Décembre': 'December',
             };
 
-            let con = mysql.createConnection({
-                host: settings.db.host,
-                user: settings.db.user,
-                password: settings.db.password,
-                database: settings.db.database
-            });
-
             $('.Jour').each(function () {
                 let humanDate = $(this).text().split(' ');
 
@@ -72,9 +63,11 @@ const calendar = (cookie, date) => {
                 }
             });
 
-           for (let item of items) {
-                con.query('INSERT INTO course (calendar_id, date, title, teacher, start_at, end_at) VALUES (1, \'' + item.date + '\', "' + item.title + '", "' + item.teacher + '", \'' + item.startAt + '\', \'' + item.endAt + '\');');
-            }
+            mongo.connect('mongodb://localhost/ecampus', function (error, db) {
+                for (let item of items) {
+                    db.collection('course').insertOne({calendar_id: 1, date: item.date, title: item.title, teacher: item.teacher, start_at: item.startAt, end_at: item.endAt});
+                }
+            });
 
             resolve(items);
         });
