@@ -1,6 +1,6 @@
 {
-  "name": "ecampus-calandar",
-  "description": "EPSI get calendar datas",
+  "name": "ecampus-calendar",
+  "description": "Get EPSI calendar datas",
   "author": "Jérôme Pogeant <p-jerome@hotmail.fr>",
   "version": "0.1.0",
   "private": false,
@@ -34,6 +34,8 @@
     "simple-oauth2": "^1.0.0"
   },
   "devDependencies": {
-    "jshint": "^2.9.3"
+    "jshint": "^2.9.3",
+    "pug-lint": "^2.3.0",
+    "sass-lint": "^1.9.1"
   }
 }
