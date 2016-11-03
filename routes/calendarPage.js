@@ -3,13 +3,12 @@
 let authHelper = require('./../authHelper');
 let express = require('express');
 let moment = require('moment-timezone');
+let mongo = require('mongodb').MongoClient;
 let router = express.Router();
 let session = require('express-session');
 
 router.get('/:city/:promo/:status/:spe/calendar/:startDate/:endDate', function (req, res) {
     let authUrl = authHelper.getAuthUrl();
-
-    insertDatasJson(results);
 
     res.render('calendar', {
         title: 'EPSI Ecampus calendar',
@@ -27,6 +26,12 @@ router.get('/authorize', function (req, res) {
     }
 });
 
+router.get('/calendar/done', function (req, res) {
+    res.render('done', {
+        title: 'EPSI Ecampus calendar'
+    })
+});
+
 function tokenReceived (res, error, token) {
     if (error) {
         res.send('error getting token ' + error);
@@ -34,31 +39,51 @@ function tokenReceived (res, error, token) {
         session.access_token = token.token.access_token;
         session.refresh_token = token.token.refresh_token;
 
-        createEvents(res);
+        getCourses(req, res);
     }
 }
 
-function insertDatasJson (results) {
-    let fs = require('fs');
-    let base = require('../public/json/outlook.json');
-    let outputfile = './public/json/output/outlookOutput.json';
-    let output = {};
-
-    fs.writeFile(outputfile, '');
-
-    for (let result of results) {
-        let date =  moment(result.date).format('YYYY-MM-DD');
-
-        base.Subject = result.title;
-        base.Body.Content = result.title + ' avec ' + result.teacher;
-        base.Start.DateTime =  date + 'T' + result.start_at + ':00';
-        base.End.DateTime =  date + 'T' + result.end_at + ':00';
-    }
-
-    fs.writeFileSync(outputfile, JSON.stringify(base, null, 4));
+function getCourses (req, res) {
+    mongo.connect('mongodb://localhost/ecampus', function (error, db) {
+        db.collection('course').find({calendar_id: 1}).toArray(function (err, courses) {
+            createJsonBody(req, res, courses);
+        });
+    });
 }
 
-function createEvents (res) {
+function createJsonBody (req, res, courses) {
+    for (let course of courses) {
+        let date =  moment(course.date).format('YYYY-MM-DD');
+
+        let subject = course.title;
+        let content = course.title + ' avec ' + course.teacher;
+        let startDate =  date + 'T' + course.start_at + ':00';
+        let endDate =  date + 'T' + course.end_at + ':00';
+
+        let json = {
+            "Subject": subject,
+            "Body": {
+                "ContentType": "HTML",
+                "Content": content
+            },
+            "Start": {
+                "DateTime": startDate,
+                "TimeZone": "Europe/Paris"
+            },
+            "End": {
+                "DateTime": endDate,
+                "TimeZone": "Europe/Paris"
+            }
+        };
+
+        let json_body = JSON.stringify(json, null, 4);
+
+        console.log(json_body);
+        // createEvents(req, res, json_body);
+    }
+}
+
+function createEvents (req, res, body) {
     let request = require('request');
     let events = require('../public/json/output/outlookOutput.json');
     let url = 'https://outlook.office.com/api/v2.0/me/events';
@@ -71,7 +96,7 @@ function createEvents (res) {
             'Content-type': 'application/json',
             'Authorization': 'Bearer ' + session.access_token,
         },
-        body: events
+        body: body
     }, function(error, response, body) {
         console.log(response);
         console.log(body);
