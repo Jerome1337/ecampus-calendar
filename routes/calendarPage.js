@@ -78,8 +78,7 @@ function createJsonBody (req, res, courses) {
 
         let json_body = JSON.stringify(json, null, 4);
 
-        console.log(json_body);
-        // createEvents(req, res, json_body);
+        createEvents(req, res, json_body);
     }
 }
 
