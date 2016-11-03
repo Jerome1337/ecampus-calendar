@@ -8,7 +8,7 @@ let mongo = require('mongodb').MongoClient;
 let request = require('request');
 
 // Get calendar datas method
-const calendar = (cookie, date) => {
+const calendar = (cookie, date, calendarId) => {
     return new Promise(function (resolve, reject) {
         let j = request.jar();
         j.setCookie(request.cookie(`__ac=${cookie}`), ECAMPUS_URL);
@@ -65,7 +65,7 @@ const calendar = (cookie, date) => {
 
             mongo.connect('mongodb://localhost/ecampus', function (error, db) {
                 for (let item of items) {
-                    db.collection('course').insertOne({calendar_id: 1, date: item.date, title: item.title, teacher: item.teacher, start_at: item.startAt, end_at: item.endAt});
+                    db.collection('course').insertOne({calendar_id: {'$ref' : 'calendar', '$id' : calendarId, '$db' : 'ecampus' }, date: new Date(item.date), title: item.title, teacher: item.teacher, start_at: item.startAt, end_at: item.endAt});
                 }
             });
 
