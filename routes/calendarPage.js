@@ -29,7 +29,7 @@ router.get('/authorize', function (req, res) {
 router.get('/calendar/done', function (req, res) {
     res.render('done', {
         title: 'EPSI Ecampus calendar'
-    })
+    });
 });
 
 function tokenReceived (res, error, token) {
