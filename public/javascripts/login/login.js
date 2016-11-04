@@ -1,8 +1,10 @@
 'use strict';
 
 let _ = require('lodash');
-let request = require('request');
 let ECAMPUS_URL = 'http://ecampusnord.epsi.fr';
+let request = require('request');
+let session = require('express-session');
+let { getCourses } = require('../calendar/calendar');
 
 // Login method
 const login = (data) => {
@@ -27,6 +29,18 @@ const login = (data) => {
     });
 };
 
+const tokenReceived = (res, error, token) => {
+    if (error) {
+        res.send('error getting token ' + error);
+    } else {
+        session.access_token = token.token.access_token;
+        session.refresh_token = token.token.refresh_token;
+
+        getCourses();
+    }
+};
+
 module.exports = {
-    login
+    login,
+    tokenReceived
 };
