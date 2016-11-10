@@ -42,6 +42,6 @@ module.exports = {
             })
             .catch((error) => {
                 callback(response, error, null);
-            })
+            });
     }
 };

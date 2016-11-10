@@ -37,4 +37,4 @@ module.exports = {
     User,
     Course,
     Calendar
-}
+};
