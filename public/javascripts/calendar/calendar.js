@@ -4,31 +4,32 @@ let _ = require('lodash');
 let cheerio = require('cheerio');
 let ECAMPUS_URL = 'http://ecampusnord.epsi.fr';
 let moment = require('moment-timezone');
-let mongo = require('mongodb').MongoClient;
+let mongoose = require('mongoose');
 let request = require('request');
 let session = require('express-session');
-let { createJsonBody } = require('../event/event');
+let {createJsonBody} = require('../event/event');
+
+let {Calendar, Course} = require('../model/model');
 
 // Create or get existing calendar id
 const getOrCreateCalendar = (city, promo, status, spe) => {
     return new Promise(function (resolve, reject) {
-        mongo.connect('mongodb://localhost/ecampus', function (error, db) {
-            db.collection('calendar').findOne({city: city, promo: promo, status: status}, function (err, result) {
-                if (!result) {
-                    db.collection('calendar').insertOne({
-                        city: city,
-                        promo: promo,
-                        status: status,
-                        specialite: spe,
-                    }, function (err, result) {
-                        let calendarId = result.insertedId;
-                        return resolve(calendarId);
-                    });
-                } else {
-                    let calendarId = result._id;
+        Calendar.findOne({city: city, promo: promo, status: status}, function (err, result) {
+            if (!result) {
+                let calendar = new Calendar({
+                    city: city,
+                    promo: promo,
+                    status: status,
+                    specialite: spe
+                });
+                calendar.save(function (err, result) {
+                    let calendarId = result.insertedId;
                     return resolve(calendarId);
-                }
-            });
+                });
+            } else {
+                let calendarId = result._id;
+                return resolve(calendarId);
+            }
         });
     });
 };
@@ -89,11 +90,19 @@ const getCalendarDatas = (cookie, date, calendarId) => {
                 }
             });
 
-            mongo.connect('mongodb://localhost/ecampus', function (error, db) {
-                for (let item of items) {
-                    db.collection('course').insertOne({calendar_id: {'$ref' : 'calendar', '$id' : calendarId, '$db' : 'ecampus' }, date: item.date, title: item.title, teacher: item.teacher, start_at: item.startAt, end_at: item.endAt});
-                }
-            });
+            for (let item of items) {
+                let course = new Course({
+                    calendar_id: calendarId,
+                    date: item.date,
+                    title: item.title,
+                    teacher: item.teacher,
+                    start_at: item.startAt,
+                    end_at: item.endAt
+                });
+                course.save(function (err, data) {
+                    if (err) console.log(err);
+                });
+            }
 
             resolve(items);
         });
@@ -101,10 +110,8 @@ const getCalendarDatas = (cookie, date, calendarId) => {
 };
 
 const getCourses = () => {
-    mongo.connect('mongodb://localhost/ecampus', function (error, db) {
-        db.collection('course').find({'calendar_id.$id': session.calendar_id}).sort({date: 1}).toArray(function (err, courses) {
-            createJsonBody(courses);
-        });
+    Course.find({'calendar_id.$id': session.calendar_id}).sort({date: 1}).toArray(function (err, courses) {
+        createJsonBody(courses);
     });
 };
 

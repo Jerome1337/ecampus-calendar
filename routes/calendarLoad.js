@@ -3,9 +3,13 @@
 let _ = require('lodash');
 let express = require('express');
 let moment = require('moment-timezone'); require('moment-recur');
-let mongo = require('mongodb').MongoClient;
+let mongoose = require('mongoose');
 let router = express.Router();
 let session = require('express-session');
+
+
+let {Course} = require('../public/javascripts/model/model');
+
 let { getCalendarDatas, getOrCreateCalendar } = require('../public/javascripts/calendar/calendar');
 
 router.get('/:city/:promo/:status/:spe/calendar/load', (req, res, next) => {
@@ -13,16 +17,14 @@ router.get('/:city/:promo/:status/:spe/calendar/load', (req, res, next) => {
         let {city, promo, status, spe} = req.params;
 
         getOrCreateCalendar(city, promo, status, spe).then(function (calendarId) {
-            mongo.connect('mongodb://localhost/ecampus', function (error, db) {
                 session.calendar_id = calendarId;
-                db.collection('course').find({'calendar_id.$id': calendarId}).toArray(function (err, courses) {
+                Course.find({'calendar_id.$id': calendarId}, (function (err, courses) {
                     if (courses.length === 0) {
                         _.map(moment([moment().year(), moment().month(), moment().day()]).recur().every(1).weeks().next(40), function (m) {
                             return getCalendarDatas(req.cookies.account, m.format('MM/DD/YYYY'), calendarId);
                         });
                     }
-                });
-            });
+                }));
         })
         .then(function (items) {
             _.each(_.flatten(items), (e) => {
