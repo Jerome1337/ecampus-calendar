@@ -54,7 +54,7 @@ router.post('/', function (req, res, next) {
     res.cookie('account', eval(account.value), {httpOnly: true}).redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
 })
     .catch(function (error) {
-        moongose.connection.close();
+        mongoose.connection.close();
         next(error);
     });
 });
