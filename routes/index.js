@@ -2,12 +2,15 @@
 
 let bodyParser = require('body-parser');
 let express = require('express');
-let mongo = require('mongodb').MongoClient;
+let mongoose = require('mongoose');
 let path = require('path');
 let router = express.Router();
 let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
-let { login } = require('../public/javascripts/login/login');
-let { passwordEncrypt } = require('../public/javascripts/password/password');
+let {login} = require('../public/javascripts/login/login');
+let {passwordEncrypt} = require('../public/javascripts/password/password');
+let {User} = require('../public/javascripts/model/model');
+
+mongoose.connect('mongodb://localhost/ecampus');
 
 router.get('/', bodyParser.json(), function (req, res) {
     res.render('index', {
@@ -31,25 +34,29 @@ router.post('/', function (req, res, next) {
 
     login(data)
         .then(function (account) {
-            mongo.connect('mongodb://localhost/ecampus', function (error, db) {
-                db.collection('user').findOne({ username: username }, function (err, user) {
-                    if (!user) {
-                        db.collection('user').insertOne({
-                            username: username,
-                            password: encryptedPassword,
-                            city: city,
-                            promo: promo,
-                            status: status,
-                            specialite: specialite
-                        });
-                    }
+
+            User.find({username: username}, function (err, user) {
+                if (!user.length) {
+                    let user = new User({
+                        username: username,
+                        password: encryptedPassword,
+                        city: city,
+                        promo: promo,
+                        status: status,
+                        specialite: specialite
                     });
-            });
-           res.cookie('account', eval(account.value), {httpOnly: true}).redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
-        })
-        .catch(function (error) {
-            next(error);
+                    user.save(function(err, data) {
+                        if (err) console.log(err);
+                        else console.log('Saved : ', data );
+                    });
+                }
         });
+    res.cookie('account', eval(account.value), {httpOnly: true}).redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
+})
+    .catch(function (error) {
+        mongoose.connection.close();
+        next(error);
+    });
 });
 
 module.exports = router;

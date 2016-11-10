@@ -3,7 +3,7 @@
 let authHelper = require('./../authHelper');
 let express = require('express');
 let router = express.Router();
-let session = require('express-session');
+let { tokenReceived } = require('../public/javascripts/login/login');
 
 router.get('/:city/:promo/:status/:spe/calendar/:startDate/:endDate', function (req, res) {
     let authUrl = authHelper.getAuthUrl();
@@ -19,19 +19,16 @@ router.get('/authorize', function (req, res) {
 
     if (authCode) {
         authHelper.getTokenFromCode(authCode, tokenReceived, res);
+        res.redirect('/calendar/done');
     } else {
         res.redirect('/');
     }
 });
 
-function tokenReceived (res, error, token) {
-    if (error) {
-        res.send('error getting token ' + error);
-    } else {
-        session.access_token = token.token.access_token;
-        session.refresh_token = token.token.refresh_token;
-        res.redirect('/');
-    }
-}
+router.get('/calendar/done', function (req, res) {
+    res.render('done', {
+        title: 'EPSI Ecampus calendar'
+    });
+});
 
 module.exports = router;
