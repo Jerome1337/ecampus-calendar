@@ -48,7 +48,7 @@ function createEvents (json_body) {
     }, function (error, response, body) {
         let parsedBody = JSON.parse(body);
 
-        if (parsedBody.length != 0) {
+        if (parsedBody.length !== 0) {
             let url = 'https://outlook.office.com/api/v2.0/me/events';
 
             request({
