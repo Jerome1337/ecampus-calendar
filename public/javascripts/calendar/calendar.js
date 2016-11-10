@@ -99,13 +99,17 @@ const getCalendarDatas = (cookie, date, calendarId) => {
                     start_at: item.startAt,
                     end_at: item.endAt
                 });
-                course.save(function (err, data) {
-                    if (err) console.log(err);
-                });
+                saveCourse(course);
             }
 
             resolve(items);
         });
+    });
+};
+
+const saveCourse = function(course) {
+    course.save(function (err) {
+        if (err) console.log(err);
     });
 };
 
