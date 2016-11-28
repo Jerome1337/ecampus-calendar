@@ -3,14 +3,14 @@
 [![Build Status](https://travis-ci.org/Jerome1337/ecampus-calendar.svg?branch=master)](https://travis-ci.org/Jerome1337/ecampus-calendar)
 [![bitHound Overall Score](https://www.bithound.io/github/Jerome1337/ecampus-calendar/badges/score.svg)](https://www.bithound.io/github/Jerome1337/ecampus-calendar)
 
-Written in JavaScript using NodeJS, ExpressJS, MomentJS, SASS and Foundation 6
+Written in JavaScript using NodeJS, ExpressJS, MomentJS, MongoDB, SASS and Foundation 6
 
 ## Usage
 Use `$ make install` to install and setup project dependencies
 
 Use `$ npm start` to start NodeJS server
 
-Use `$ npm test` to launch JShint tests 
+Use `$ npm test` to launch tests 
 
 ## TODO
 * Front-end
