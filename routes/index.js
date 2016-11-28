@@ -6,11 +6,11 @@ let mongoose = require('mongoose');
 let path = require('path');
 let router = express.Router();
 let settings = require(path.join(__dirname, '..', 'settings', 'settings.json'));
-let {login} = require('../public/javascripts/login/login');
-let {passwordEncrypt} = require('../public/javascripts/password/password');
-let {User} = require('../public/javascripts/model/model');
+let { login } = require('../public/javascripts/login/login');
+let { passwordEncrypt } = require('../public/javascripts/password/password');
+let { User } = require('../public/javascripts/model/model');
 
-mongoose.connect('mongodb://localhost/ecampus');
+mongoose.connect('mongodb://127.0.0.1:27017/ecampus');
 
 router.get('/', bodyParser.json(), function (req, res) {
     res.render('index', {
@@ -34,7 +34,6 @@ router.post('/', function (req, res, next) {
 
     login(data)
         .then(function (account) {
-
             User.find({username: username}, function (err, user) {
                 if (!user.length) {
                     let user = new User({
@@ -51,12 +50,11 @@ router.post('/', function (req, res, next) {
                     });
                 }
         });
-    res.cookie('account', eval(account.value), {httpOnly: true}).redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
-})
-    .catch(function (error) {
-        mongoose.connection.close();
-        next(error);
-    });
+            res.cookie('account', eval(account.value), {httpOnly: true}).redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
+        })
+        .catch(function (error) {
+            next(error);
+        });
 });
 
 module.exports = router;

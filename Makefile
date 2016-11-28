@@ -1,3 +1,7 @@
+install:
+	npm i
+	sh install-db.sh
+
 test: test_js test_pug test_sass
 
 test_js:

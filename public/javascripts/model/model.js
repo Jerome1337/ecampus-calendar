@@ -1,9 +1,7 @@
-/**
- * Created by JBouquet on 10/11/2016.
- */
+'use strict';
+
 let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-
 
 const User = mongoose.model('user', {
     username: String,
@@ -23,7 +21,6 @@ const Course = mongoose.model('course', {
     end_at: String
 });
 
-
 const Calendar = mongoose.model('calendar', {
     id: Schema.ObjectId,
     city: String,
@@ -31,7 +28,6 @@ const Calendar = mongoose.model('calendar', {
     status: String,
     specialite: String
 });
-
 
 module.exports = {
     User,

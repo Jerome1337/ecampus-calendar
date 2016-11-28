@@ -7,9 +7,8 @@ let moment = require('moment-timezone');
 let mongoose = require('mongoose');
 let request = require('request');
 let session = require('express-session');
-let {createJsonBody} = require('../event/event');
-
-let {Calendar, Course} = require('../model/model');
+let { createJsonBody } = require('../event/event');
+let { Calendar, Course } = require('../model/model');
 
 // Create or get existing calendar id
 const getOrCreateCalendar = (city, promo, status, spe) => {
@@ -114,7 +113,7 @@ const saveCourse = function(course) {
 };
 
 const getCourses = () => {
-    Course.find({'calendar_id.$id': session.calendar_id}).sort({date: 1}).toArray(function (err, courses) {
+    Course.find({'calendar_id': session.calendar_id}).sort({date: 1}).exec(function (err, courses) {
         createJsonBody(courses);
     });
 };

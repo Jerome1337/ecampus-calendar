@@ -6,7 +6,7 @@
 Written in JavaScript using NodeJS, ExpressJS, MomentJS, SASS and Foundation 6
 
 ## Usage
-Use `$ npm i` to install project dependencies
+Use `$ make install` to install and setup project dependencies
 
 Use `$ npm start` to start NodeJS server
 
