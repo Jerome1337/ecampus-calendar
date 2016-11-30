@@ -10,7 +10,7 @@ let { login } = require('../public/javascripts/login/login');
 let { passwordEncrypt } = require('../public/javascripts/password/password');
 let { User } = require('../public/javascripts/model/model');
 
-mongoose.connect('mongodb://127.0.0.1:27017/ecampus');
+mongoose.connect('mongodb://ecampus:password@127.0.0.1:27017/ecampus');
 
 router.get('/', bodyParser.json(), function (req, res) {
     res.render('index', {
