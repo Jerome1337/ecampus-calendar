@@ -14,9 +14,10 @@ Use `$ npm test` to launch tests
 
 ## TODO
 * Front-end
+* Rework login form
 * Spinner when the calendar is loading
 * Use Gmail API
-* Add saved datas to Outlook/Gmail calendar
+* Add saved datas to Gmail calendar
 * Factorize / optimize code
 * Rework repo commit history
 
