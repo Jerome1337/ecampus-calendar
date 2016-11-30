@@ -3,7 +3,7 @@
 let mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
-const User = mongoose.model('user', {
+const User = mongoose.model('users', {
     username: String,
     password: String,
     city: String,
@@ -12,17 +12,16 @@ const User = mongoose.model('user', {
     specialite: String
 });
 
-const Course = mongoose.model('course', {
-    calendar_id: Schema.ObjectId,
+const Course = mongoose.model('courses', {
     date: Number,
     title: String,
     teacher: String,
     start_at: String,
-    end_at: String
+    end_at: String,
+    _calendar: { type: Schema.Types.ObjectId, ref: 'calendars' }
 });
 
-const Calendar = mongoose.model('calendar', {
-    id: Schema.ObjectId,
+const Calendar = mongoose.model('calendars', {
     city: String,
     promo: String,
     status: String,
