@@ -25,7 +25,8 @@ const createJsonBody = (courses) => {
             "End": {
                 "DateTime": endDate,
                 "TimeZone": "Europe/Paris"
-            }
+            },
+            "IsReminderOn": "false"
         };
 
         let json_body = JSON.stringify(json, null, 4);
@@ -48,20 +49,25 @@ function createEvents (json_body) {
     }, function (error, response, body) {
         let parsedBody = JSON.parse(body);
 
-        if (parsedBody.length !== 0) {
-            let url = 'https://outlook.office.com/api/v2.0/me/events';
+        switch (true) {
+            case typeof parsedBody.value == 'undefined':
+                break;
+            case parsedBody.value.length === 0:
+                let url = 'https://outlook.office.com/api/v2.0/me/events';
 
-            request({
-                url: url,
-                method: 'POST',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': 'Bearer ' + session.access_token,
-                },
-                body: json_body
-            });
-        } else {
-            console.log('Evenements déjà créé');
+                request({
+                    url: url,
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': 'Bearer ' + session.access_token,
+                    },
+                    body: json_body
+                });
+
+                break;
+            default:
+                break;
         }
     });
 }

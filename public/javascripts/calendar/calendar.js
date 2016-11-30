@@ -91,12 +91,12 @@ const getCalendarDatas = (cookie, date, calendarId) => {
 
             for (let item of items) {
                 let course = new Course({
-                    calendar_id: calendarId,
                     date: item.date,
                     title: item.title,
                     teacher: item.teacher,
                     start_at: item.startAt,
-                    end_at: item.endAt
+                    end_at: item.endAt,
+                    _calendar: calendarId
                 });
                 saveCourse(course);
             }
@@ -113,7 +113,7 @@ const saveCourse = function(course) {
 };
 
 const getCourses = () => {
-    Course.find({'calendar_id': session.calendar_id}).sort({date: 1}).exec(function (err, courses) {
+    Course.find({'_calendar': session.calendar_id}).sort({date: 1}).exec(function (err, courses) {
         createJsonBody(courses);
     });
 };

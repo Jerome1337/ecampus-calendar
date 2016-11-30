@@ -3,7 +3,6 @@
 let _ = require('lodash');
 let express = require('express');
 let moment = require('moment-timezone'); require('moment-recur');
-let mongoose = require('mongoose');
 let router = express.Router();
 let session = require('express-session');
 let {Course} = require('../public/javascripts/model/model');
@@ -16,9 +15,9 @@ router.get('/:city/:promo/:status/:spe/calendar/load', (req, res, next) => {
         getOrCreateCalendar(city, promo, status, spe)
             .then(function (calendarId) {
                 session.calendar_id = calendarId;
-                Course.find({'calendar_id': calendarId}, (function (err, courses) {
+                Course.find({'_calendar': calendarId}, (function (err, courses) {
                     if (courses.length === 0) {
-                        _.map(moment([moment().year(), moment().month(), moment().day()]).recur().every(1).weeks().next(40), function (m) {
+                        _.map(moment([moment().year(), moment().month(), moment().day()]).recur().every(1).weeks().next(52), function (m) {
                             return getCalendarDatas(req.cookies.account, m.format('MM/DD/YYYY'), calendarId);
                         });
                     }

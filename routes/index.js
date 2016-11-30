@@ -44,12 +44,12 @@ router.post('/', function (req, res, next) {
                         status: status,
                         specialite: specialite
                     });
-                    user.save(function(err, data) {
+                    user.save(function(err) {
                         if (err) console.log(err);
-                        else console.log('Saved : ', data );
                     });
                 }
-        });
+            });
+
             res.cookie('account', eval(account.value), {httpOnly: true}).redirect('/' + city + '/' + promo + '/' + status + '/' + specialite + '/calendar/load');
         })
         .catch(function (error) {
